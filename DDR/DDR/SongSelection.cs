@@ -13,12 +13,17 @@ namespace DDR
 
         public SongSelection()
         {
-            Label playername = new Label { Text = "Player Name: ", FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)), TextColor = Color.Green, VerticalOptions = LayoutOptions.Start, Margin = new Thickness(0, 0, 0, 80), HorizontalTextAlignment = TextAlignment.Center };
+            Label playername = new Label { Text = "Player Name: ", FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)), TextColor = Color.Blue, VerticalOptions = LayoutOptions.Start, Margin = new Thickness(0, 0, 0, 80), HorizontalTextAlignment = TextAlignment.Start };
 
             Button btnPlaySong = new Button
             {
                 Text = "Play Song",
-                VerticalOptions = LayoutOptions.Center
+                VerticalOptions = LayoutOptions.Center,
+                BorderColor = Color.Blue,
+                BackgroundColor = Color.Blue,
+                Font = Font.SystemFontOfSize(NamedSize.Large)
+              .WithAttributes(FontAttributes.Bold),
+                TextColor = Color.Green
             };
 
             btnPlaySong.Clicked += btnPlaySongClick;
@@ -30,12 +35,13 @@ namespace DDR
 
                 Spacing = 5.00,
                 Orientation = StackOrientation.Vertical,
+                BackgroundColor = Color.Black,
                 Children =
                 {
 
 
 
-                   new Label {Text="ArduiDDR Song Selection", FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)), TextColor = Color.Green, VerticalOptions = LayoutOptions.Start, Margin = new Thickness(0,0,0,80), HorizontalTextAlignment = TextAlignment.Center },
+                   new Label {Text="ArduiDDR Song Selection", FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)), TextColor = Color.Blue, VerticalOptions = LayoutOptions.Start, Margin = new Thickness(0,0,0,80), HorizontalTextAlignment = TextAlignment.Center },
                    playername,
                    btnPlaySong
                    
@@ -52,7 +58,7 @@ namespace DDR
 
         private void btnPlaySongClick (object sender, EventArgs e)
         {
-            
+            Navigation.PushAsync(new PlaySong());
         }
 
 
