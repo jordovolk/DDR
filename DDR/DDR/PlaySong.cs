@@ -21,7 +21,7 @@ namespace DDR
                 HorizontalOptions = LayoutOptions.Fill,
                 Font = Font.SystemFontOfSize(NamedSize.Large)
               .WithAttributes(FontAttributes.Bold),
-                TextColor = Color.Green
+                TextColor = Color.White
             };
 
             Button btnPause = new Button
@@ -32,7 +32,7 @@ namespace DDR
                 BackgroundColor = Color.Blue,
                 Font = Font.SystemFontOfSize(NamedSize.Large)
              .WithAttributes(FontAttributes.Bold),
-                TextColor = Color.Green
+                TextColor = Color.White
             };
 
             Button btnRestart = new Button
@@ -43,7 +43,7 @@ namespace DDR
                 BackgroundColor = Color.Blue,
                 Font = Font.SystemFontOfSize(NamedSize.Large)
         .WithAttributes(FontAttributes.Bold),
-                TextColor = Color.Green
+                TextColor = Color.White
             };
 
 
@@ -56,7 +56,7 @@ namespace DDR
                     {
                         FontSize =  Device.GetNamedSize(NamedSize.Large, typeof(Label)), Font = Font.SystemFontOfSize(NamedSize.Large)
               .WithAttributes(FontAttributes.Bold),
-                        HorizontalTextAlignment = TextAlignment.Center, TextColor = Color.Blue,
+                        HorizontalTextAlignment = TextAlignment.Center, TextColor = Color.White,
                         Text = "Ready to dance???"
 
                     },

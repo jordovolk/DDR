@@ -13,7 +13,7 @@ namespace DDR
 
         public SongSelection()
         {
-            Label playername = new Label { Text = "Player Name: ", FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)), TextColor = Color.Blue, VerticalOptions = LayoutOptions.Start, Margin = new Thickness(0, 0, 0, 80), HorizontalTextAlignment = TextAlignment.Start };
+            Label playername = new Label { Text = "Player Name: ", FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)), TextColor = Color.White, VerticalOptions = LayoutOptions.Start, Margin = new Thickness(0, 0, 0, 80), HorizontalTextAlignment = TextAlignment.Start };
 
             Button btnPlaySong = new Button
             {
@@ -23,7 +23,7 @@ namespace DDR
                 BackgroundColor = Color.Blue,
                 Font = Font.SystemFontOfSize(NamedSize.Large)
               .WithAttributes(FontAttributes.Bold),
-                TextColor = Color.Green
+                TextColor = Color.White
             };
 
             btnPlaySong.Clicked += btnPlaySongClick;
@@ -41,7 +41,7 @@ namespace DDR
 
 
 
-                   new Label {Text="ArduiDDR Song Selection", FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)), TextColor = Color.Blue, VerticalOptions = LayoutOptions.Start, Margin = new Thickness(0,0,0,80), HorizontalTextAlignment = TextAlignment.Center },
+                   new Label {Text="ArduiDDR Song Selection", FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)), TextColor = Color.White, VerticalOptions = LayoutOptions.Start, Margin = new Thickness(0,0,0,80), HorizontalTextAlignment = TextAlignment.Center },
                    playername,
                    btnPlaySong
                    

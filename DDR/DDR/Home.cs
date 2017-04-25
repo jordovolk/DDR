@@ -19,7 +19,7 @@ namespace DDR
                 BackgroundColor = Color.Blue,
                 Font = Font.SystemFontOfSize(NamedSize.Large)
               .WithAttributes(FontAttributes.Bold),
-                TextColor = Color.Green
+                TextColor = Color.White
             };
 
             Button btnLeaderboard = new Button
@@ -30,7 +30,7 @@ namespace DDR
                 BackgroundColor = Color.Blue,
                 Font = Font.SystemFontOfSize(NamedSize.Large)
               .WithAttributes(FontAttributes.Bold),
-                TextColor = Color.Green
+                TextColor = Color.White
             };
 
             btnLeaderboard.Clicked += btnLeaderboardClick;
@@ -50,7 +50,7 @@ namespace DDR
 
 
 
-                   new Label {Text="ArduiDDR", FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)), TextColor = Color.Blue, VerticalOptions = LayoutOptions.Start, Margin = new Thickness(0,0,0,80), HorizontalTextAlignment = TextAlignment.Center },
+                   new Label {Text="ArduiDDR", FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)), TextColor = Color.White, VerticalOptions = LayoutOptions.Start, Margin = new Thickness(0,0,0,80), HorizontalTextAlignment = TextAlignment.Center },
                    btnPlayGame, 
                    btnLeaderboard
 
