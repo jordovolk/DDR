@@ -12,7 +12,7 @@ namespace DDR
     {
         public NavPage()
         {
-            PushAsync(new Home());
+               PushAsync(new Home());
         }
     }
 }
