@@ -9,7 +9,7 @@ namespace DDR
 {
     public class PlaySong : ContentPage
     {
-
+       
         // ********** Arrow Images **********
         Image arwMoving;
         Image arwUp;
@@ -108,6 +108,8 @@ namespace DDR
 
         }
 
+        
+
         public void onBtnClick(object sender, EventArgs e)
         {
             double height = mainLayout.Height;
@@ -126,5 +128,7 @@ namespace DDR
             arwMoving.TranslateTo(0, (-height + arwHeight), 4000);
            
         }
+
+
     }
 }
