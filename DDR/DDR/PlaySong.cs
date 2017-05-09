@@ -7,66 +7,124 @@ using Xamarin.Forms;
 
 namespace DDR
 {
-    class PlaySong : ContentPage
+    public class PlaySong : ContentPage
     {
+
+        // ********** Arrow Images **********
+        Image arwMoving;
+        Image arwUp;
+        Image arwDown;
+        Image arwLeft;
+        Image arwRight;
+
+        // ********** Layouts **********
+        StackLayout mainLayout;
+        StackLayout catchLayout;
+        StackLayout throwLayout;
+
+        Button btn;
+        Image blank;
+
         public PlaySong()
         {
-            Button btnStart = new Button
+            BackgroundColor = Color.White;
+
+
+
+            // ********** Images *******//
+            arwUp = new Image();
+            arwDown = new Image();
+            arwLeft = new Image();
+            arwRight = new Image();
+
+            arwUp.Source = ImageSource.FromResource("DDR.arrow_up.png");
+            arwUp.Aspect = Aspect.AspectFit;
+
+            arwDown.Source = ImageSource.FromResource("DDR.arrow_down.png");
+            arwDown.Aspect = Aspect.AspectFit;
+
+            arwLeft.Source = ImageSource.FromResource("DDR.arrow_left.png");
+            arwLeft.Aspect = Aspect.AspectFit;
+
+            arwRight.Source = ImageSource.FromResource("DDR.arrow_right.png");
+            arwRight.Aspect = Aspect.AspectFit;
+
+            arwMoving = new Image();
+            arwMoving.Aspect = Aspect.AspectFit;
+            arwMoving.Source = ImageSource.FromResource("DDR.arrow_left.png");
+            arwMoving.VerticalOptions = LayoutOptions.End;
+
+            blank = new Image();
+            blank.Aspect = Aspect.AspectFit;
+            blank.Source = ImageSource.FromResource("DDR.blank.png");
+            blank.VerticalOptions = LayoutOptions.End;
+
+
+            // ********** BUtton Shit **********
+            btn = new Button();
+            btn.Text = "Start";
+            btn.Clicked += onBtnClick;
+
+            // ********** Layout shit **********
+
+            throwLayout = new StackLayout
             {
-                Text = "Start",
-                VerticalOptions = LayoutOptions.Start,
-                Margin = new Thickness(0,  620, 0, 0),
-                BorderColor = Color.Blue,
+                Orientation = StackOrientation.Horizontal,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.FillAndExpand,
                 BackgroundColor = Color.Blue,
-                HorizontalOptions = LayoutOptions.Fill,
-                Font = Font.SystemFontOfSize(NamedSize.Large)
-              .WithAttributes(FontAttributes.Bold),
-                TextColor = Color.White
-            };
-
-            Button btnPause = new Button
-            {
-                Text = "Pause",
-                VerticalOptions = LayoutOptions.Center,
-                BorderColor = Color.Blue,
-                BackgroundColor = Color.Blue,
-                Font = Font.SystemFontOfSize(NamedSize.Large)
-             .WithAttributes(FontAttributes.Bold),
-                TextColor = Color.White
-            };
-
-            Button btnRestart = new Button
-            {
-                Text = "Restart",
-                VerticalOptions = LayoutOptions.Center,
-                BorderColor = Color.Blue,
-                BackgroundColor = Color.Blue,
-                Font = Font.SystemFontOfSize(NamedSize.Large)
-        .WithAttributes(FontAttributes.Bold),
-                TextColor = Color.White
-            };
-
-
-            StackLayout layout = new StackLayout
-            {
-                BackgroundColor = Color.Black,
                 Children =
                 {
-                    new Label
-                    {
-                        FontSize =  Device.GetNamedSize(NamedSize.Large, typeof(Label)), Font = Font.SystemFontOfSize(NamedSize.Large)
-              .WithAttributes(FontAttributes.Bold),
-                        HorizontalTextAlignment = TextAlignment.Center, TextColor = Color.White,
-                        Text = "Ready to dance???"
-
-                    },
-                  btnStart,
-                  btnPause,
-                  btnRestart
-                    
                 }
             };
-            Content = layout;
+
+            catchLayout = new StackLayout
+            {
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Start,
+                Orientation = StackOrientation.Horizontal,
+                BackgroundColor = Color.Red,
+                Spacing = 0,
+                Children =
+                {
+                    arwUp, arwDown, arwLeft, arwRight
+                }
+
+            };
+
+            mainLayout = new StackLayout
+            {
+                Orientation = StackOrientation.Vertical,
+                BackgroundColor = Color.Silver,
+                Children =
+                {
+                    catchLayout, btn, throwLayout
+                }
+            };
+            Content = mainLayout;
+
+
+
+
+        }
+
+        public void onBtnClick(object sender, EventArgs e)
+        {
+            double height = mainLayout.Height;
+            double width = mainLayout.Width;
+            double arwHeight = arwRight.Height;
+
+            arwMoving = new Image();
+            arwMoving.Aspect = Aspect.AspectFit;
+            arwMoving.Source = ImageSource.FromResource("DDR.arrow_left.png");
+            arwMoving.VerticalOptions = LayoutOptions.End;
+
+          
+            throwLayout.Children.Add(arwMoving);
+           
+
+            arwMoving.TranslateTo(0, (-height + arwHeight), 4000);
+           
         }
     }
 }
