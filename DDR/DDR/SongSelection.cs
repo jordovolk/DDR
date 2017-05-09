@@ -52,7 +52,7 @@ namespace DDR
 
         private void btnPlaySongClick (object sender, EventArgs e)
         {
-            
+              Navigation.PushAsync(new PlaySong());
         }
 
 
