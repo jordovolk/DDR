@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 
+
+
 using Xamarin.Forms;
 
 namespace DDR
@@ -22,6 +24,11 @@ namespace DDR
 
         // ********** Controls **********
         Button btnStart;
+        Button btnUp;
+        Button btnDown;
+        Button btnLeft;
+        Button btnRight;
+        Label lblScore;
 
         // ********** Catch Arrows **********
         Image arwUp;
@@ -30,15 +37,34 @@ namespace DDR
         Image arwRight;
 
         // ********* Other *********
-        public static int counter;
-        String[] arrows;
+        public int tickCounter;
+        public int arrowCounter;
+        public int catchCounter;
+        Arrow[] arrows;
+        Arrow nextArrow;
+        Arrow nextCatch;
+        public int arrowsHit;
+        public int arrowsTotal;
+        bool gameStarted,
+            arwUpHit,
+            arwDownHit,
+            arwRightHit,
+            arwLeftHit;
+
+        string playerMove;
 
 
 
         public PlaySong()
         {
-            counter = 0;
-            arrows = new String[] { "up", "left", "right", "down", "up", "left", "right", "down" };
+            
+            
+            gameStarted = false;
+           
+            
+
+            //arrows = new String[] { "up", "left", "right", "down", "up", "left", "right", "down" };
+            
 
 
             // ********** Initiate Controls **********
@@ -48,13 +74,52 @@ namespace DDR
                 BackgroundColor = Color.Silver
             };
 
+            btnUp = new Button
+            {
+                Text = "^",
+                BackgroundColor = Color.Silver
+            };
+
+            btnDown = new Button
+            {
+                Text = "V",
+                BackgroundColor = Color.Silver
+            };
+
+            btnLeft = new Button
+            {
+                Text = "<",
+                BackgroundColor = Color.Silver
+            };
+
+            btnRight = new Button
+            {
+                Text = ">",
+                BackgroundColor = Color.Silver
+            };
+
             btnStart.Clicked += onBtnStartClick;
+            btnUp.Clicked += onBtnUpClick;
+            btnDown.Clicked += onBtnDownClick;
+            btnLeft.Clicked += onBtnLeftClick;
+            btnRight.Clicked += onBtnRightClick;
+
+            lblScore = new Label
+            {
+                Text = "0/0",
+                BackgroundColor = Color.Red,
+                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label))
+            };
 
             controlLayout = new StackLayout
+
             {
+                Orientation = StackOrientation.Horizontal,
+
                 Children =
                 {
-                    btnStart
+
+                    btnUp, btnDown, btnLeft, btnRight
                 }
             };
 
@@ -145,7 +210,7 @@ namespace DDR
                 VerticalOptions = LayoutOptions.FillAndExpand,
                 Children =
                 {
-                    controlLayout, laneContainer
+                    controlLayout, laneContainer, lblScore
                 }
 
             };
@@ -162,9 +227,84 @@ namespace DDR
             beginGame();
         }
 
+        void onBtnUpClick(object sender, EventArgs e)
+        {
+            if (!gameStarted)
+            {
+                beginGame();
+            }
+            else
+            {
+                //arwUpHit = true;
+                playerMove = "up";
+            }
+        }
+        void onBtnDownClick(object sender, EventArgs e)
+        {
+            if (!gameStarted)
+            {
+                beginGame();
+            }
+            else
+            {
+                //arwDownHit = true;
+                playerMove = "down";
+            }
+        }
+        void onBtnLeftClick(object sender, EventArgs e)
+        {
+            if(!gameStarted)
+            {
+                beginGame();
+            }
+            else
+            {
+                //arwLeftHit = true;
+                playerMove = "left";
+            }
+        }
+        void onBtnRightClick(object sender, EventArgs e)
+        {
+            if (!gameStarted)
+            {
+                beginGame();
+            }
+            else
+            {
+                //arwRightHit = true;
+                playerMove = "right";
+            }
+        }
+
         void beginGame()
         {
-            Device.StartTimer(TimeSpan.FromMilliseconds(500), arwScriptStart);
+            gameStarted = true;
+            tickCounter = 0;
+            arrowCounter = 0;
+            catchCounter = 0;
+            arrowsHit = 0;
+            arrowsTotal = 0;
+            //arwUpHit = false;
+            //arwDownHit = false;
+            //arwLeftHit = false;
+            //arwRightHit = false;
+            playerMove = "";
+            arrows = new Arrow[]
+            {
+                new Arrow("up", 2),
+                new Arrow("down", 4),
+                new Arrow("left", 6),
+                new Arrow("right", 8),
+                new Arrow("up", 14),
+                new Arrow("down", 16),
+                new Arrow("left", 18),
+                new Arrow("right", 20)
+
+            };
+            nextArrow = arrows[arrowCounter];
+            nextCatch = arrows[catchCounter];
+
+            Device.StartTimer(TimeSpan.FromMilliseconds(250), arwScriptStart);
         }
 
         void throwArrow(String dir)
@@ -207,19 +347,104 @@ namespace DDR
 
         }
 
-        bool arwScriptStart()
+        //bool arwScriptStart()
+        //{
+        //    if (counter < arrows.Length)
+        //    {
+        //        throwArrow(arrows[counter]);
+        //        counter++;
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+
+        //}
+
+            bool arwScriptStart()
         {
-            if (counter < arrows.Length)
+            if(tickCounter >= nextCatch.EndTickLower && tickCounter <= nextCatch.EndTickUpper)
             {
-                throwArrow(arrows[counter]);
-                counter++;
-                return true;
-            }
-            else
-            {
-                return false;
+                if(playerMove == nextCatch.Direction)
+                {
+                    arrowsHit++;
+                    arrowsTotal++;
+                    catchCounter++;
+                    if (catchCounter < arrows.Length)
+                    {
+                        nextCatch = arrows[catchCounter];
+                    }
+
+                } else if(tickCounter == nextCatch.EndTickUpper)
+                {
+
+                    arrowsTotal++;
+                    catchCounter++;
+                    if (catchCounter < arrows.Length)
+                    {
+                        nextCatch = arrows[catchCounter];
+                    }
+
+
+                }
+                updateScore();
             }
 
+            if(nextArrow.StartTick == tickCounter)
+            {
+                throwArrow(nextArrow.Direction);
+                arrowCounter++;
+                if(arrowCounter < arrows.Length)
+                {
+                    nextArrow = arrows[arrowCounter];
+                } else
+                {
+                    //No more arrows to throw
+                }
+            }
+            tickCounter++;
+            //arwUpHit = false;
+            //arwDownHit = false;
+            //arwLeftHit = false;
+            //arwRightHit = false;
+            return true;
+        }
+
+        public void updateScore()
+        {
+            lblScore.Text = arrowsHit.ToString() + "/" + arrowsTotal.ToString();
+        }
+
+        class Arrow
+        {
+
+            public String Direction
+            {
+                get;set;
+            }
+            public int StartTick
+            {
+                get;set;
+            }
+
+            public int EndTickLower
+            {
+                get;set;
+            }
+
+            public int EndTickUpper
+            {
+                get;set;
+            }
+
+            public Arrow(String dir, int startTick)
+            {
+                Direction = dir;
+                StartTick = startTick;
+                EndTickLower = startTick + 9;
+                EndTickUpper = startTick + 11;
+            }
         }
     }
 }
